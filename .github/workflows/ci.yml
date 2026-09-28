@@ -1,0 +1,46 @@
+name: ci
+
+# Accord is about API testing, so CI runs every mechanism: the provider's own
+# tests, the consumer contract, the fault-injection scoring, the fuzz layer, and
+# a Newman run of the Postman collection against a live provider.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  provider:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r provider/requirements.txt
+      - name: Provider + consumer tests
+        run: python -m pytest testing
+      - name: Consumer contract verification
+        run: python scoring/verify_contract.py
+      - name: Fault-injection scoring (which mechanism catches which change)
+        run: python scoring/score.py
+      - name: Fuzz the create endpoint
+        run: python scoring/fuzz.py
+      - uses: actions/upload-artifact@v4
+        with: { name: reports, path: reports/*.json }
+
+  newman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - run: pip install -r provider/requirements.txt
+      - name: Start the provider
+        run: |
+          python -m uvicorn app.main:app --port 8000 &
+          for i in $(seq 1 30); do curl -sf http://localhost:8000/api/health && break; sleep 1; done
+        working-directory: provider
+      - name: Newman (Postman collection)
+        run: npx --yes newman run postman/accord.postman_collection.json --env-var baseUrl=http://localhost:8000

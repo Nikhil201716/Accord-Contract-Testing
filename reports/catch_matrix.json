@@ -1,0 +1,154 @@
+{
+  "changes": {
+    "C01": {
+      "breaking": true,
+      "caught": {
+        "contract": true,
+        "provider_tests": false,
+        "schema_diff": true
+      },
+      "desc": "REST: rename cover_url -> image (a field the consumer renders).",
+      "klass": "rename"
+    },
+    "C02": {
+      "breaking": true,
+      "caught": {
+        "contract": true,
+        "provider_tests": false,
+        "schema_diff": true
+      },
+      "desc": "GraphQL: rename coverUrl -> image.",
+      "klass": "rename"
+    },
+    "C03": {
+      "breaking": true,
+      "caught": {
+        "contract": true,
+        "provider_tests": true,
+        "schema_diff": true
+      },
+      "desc": "REST: available becomes a string ('true') instead of a bool.",
+      "klass": "type-change"
+    },
+    "C04": {
+      "breaking": true,
+      "caught": {
+        "contract": true,
+        "provider_tests": false,
+        "schema_diff": true
+      },
+      "desc": "REST: rating becomes a string instead of a float.",
+      "klass": "type-change"
+    },
+    "C05": {
+      "breaking": true,
+      "caught": {
+        "contract": true,
+        "provider_tests": false,
+        "schema_diff": true
+      },
+      "desc": "GraphQL: rating becomes String instead of Float.",
+      "klass": "type-change"
+    },
+    "C06": {
+      "breaking": true,
+      "caught": {
+        "contract": false,
+        "provider_tests": true,
+        "schema_diff": true
+      },
+      "desc": "REST: drop the year field from the book response.",
+      "klass": "remove-field"
+    },
+    "C07": {
+      "breaking": true,
+      "caught": {
+        "contract": true,
+        "provider_tests": true,
+        "schema_diff": true
+      },
+      "desc": "REST: GET /api/books/{id} is moved/removed.",
+      "klass": "remove-endpoint"
+    },
+    "C08": {
+      "breaking": true,
+      "caught": {
+        "contract": false,
+        "provider_tests": true,
+        "schema_diff": true
+      },
+      "desc": "REST: create returns 200 instead of 201 Created.",
+      "klass": "status-code"
+    },
+    "C09": {
+      "breaking": true,
+      "caught": {
+        "contract": false,
+        "provider_tests": false,
+        "schema_diff": false
+      },
+      "desc": "REST: create accepts implausible years (validation relaxed).",
+      "klass": "request-validation"
+    },
+    "C10": {
+      "breaking": false,
+      "caught": {
+        "contract": false,
+        "provider_tests": false,
+        "schema_diff": false
+      },
+      "desc": "REST: add an optional subtitle field (additive, non-breaking).",
+      "klass": "add-field"
+    },
+    "C11": {
+      "breaking": false,
+      "caught": {
+        "contract": false,
+        "provider_tests": false,
+        "schema_diff": false
+      },
+      "desc": "GraphQL: add an optional subtitle field (additive, non-breaking).",
+      "klass": "add-field"
+    },
+    "C12": {
+      "breaking": true,
+      "caught": {
+        "contract": true,
+        "provider_tests": false,
+        "schema_diff": false
+      },
+      "desc": "REST: rating silently rescaled 0-5 -> 0-100 (still a float).",
+      "klass": "semantic"
+    },
+    "C14": {
+      "breaking": true,
+      "caught": {
+        "contract": false,
+        "provider_tests": false,
+        "schema_diff": false
+      },
+      "desc": "REST: isbn format changes (hyphens stripped; still a string).",
+      "klass": "semantic"
+    },
+    "C15": {
+      "breaking": true,
+      "caught": {
+        "contract": false,
+        "provider_tests": false,
+        "schema_diff": true
+      },
+      "desc": "GraphQL: title becomes nullable (String! -> String).",
+      "klass": "nullability"
+    },
+    "C16": {
+      "breaking": true,
+      "caught": {
+        "contract": false,
+        "provider_tests": true,
+        "schema_diff": true
+      },
+      "desc": "GraphQL: year becomes String instead of Int.",
+      "klass": "type-change"
+    }
+  }
+}

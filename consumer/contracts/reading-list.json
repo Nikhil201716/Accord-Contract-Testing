@@ -1,0 +1,49 @@
+{
+  "consumer": "reading-list-widget",
+  "provider": "accord",
+  "description": "What a reading-list widget depends on from the Accord API. It uses BOTH REST and GraphQL, and it depends on cover_url and rating -- fields the provider treats as presentation extras and does not assert in its own tests. That gap is the point.",
+  "interactions": [
+    {
+      "description": "REST: list books for the shelf",
+      "kind": "rest",
+      "request": { "method": "GET", "path": "/api/books" },
+      "response": {
+        "status": 200,
+        "shape": "array",
+        "fields": { "id": "int", "title": "str", "author": "str", "cover_url": "str", "available": "bool" }
+      }
+    },
+    {
+      "description": "REST: open a book's detail",
+      "kind": "rest",
+      "request": { "method": "GET", "path": "/api/books/1" },
+      "response": {
+        "status": 200,
+        "shape": "object",
+        "fields": { "id": "int", "title": "str", "author": "str", "cover_url": "str", "rating": "float" },
+        "value_rules": [{ "field": "rating", "min": 0.0, "max": 5.0 }]
+      }
+    },
+    {
+      "description": "GraphQL: book detail with rating",
+      "kind": "graphql",
+      "request": { "query": "{ book(id: 1) { id title author rating } }" },
+      "response": {
+        "data_path": "book",
+        "shape": "object",
+        "fields": { "id": "int", "title": "str", "author": "str", "rating": "float" },
+        "value_rules": [{ "field": "rating", "min": 0.0, "max": 5.0 }]
+      }
+    },
+    {
+      "description": "GraphQL: shelf covers",
+      "kind": "graphql",
+      "request": { "query": "{ books { id title coverUrl } }" },
+      "response": {
+        "data_path": "books",
+        "shape": "array",
+        "fields": { "id": "int", "title": "str", "coverUrl": "str" }
+      }
+    }
+  ]
+}

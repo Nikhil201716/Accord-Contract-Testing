@@ -1,0 +1,74 @@
+{
+  "info": {
+    "name": "Accord API",
+    "description": "REST + GraphQL smoke/contract checks for the Accord provider. Run with Newman against a running provider: newman run postman/accord.postman_collection.json --env-var baseUrl=http://localhost:8000",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:8000" }],
+  "item": [
+    {
+      "name": "health is ok",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/health" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));",
+        "pm.test('status ok', () => pm.expect(pm.response.json().status).to.eql('ok'));"
+      ] } }]
+    },
+    {
+      "name": "list books",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/books" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));",
+        "const b = pm.response.json();",
+        "pm.test('is an array of 5', () => pm.expect(b).to.be.an('array').with.length(5));",
+        "pm.test('has consumer fields', () => { const x = b[0]; pm.expect(x).to.have.all.keys('id','title','author','isbn','year','tags','available','cover_url','rating'); });"
+      ] } }]
+    },
+    {
+      "name": "get book 1",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/books/1" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));",
+        "const b = pm.response.json();",
+        "pm.test('id is 1', () => pm.expect(b.id).to.eql(1));",
+        "pm.test('cover_url is a url', () => pm.expect(b.cover_url).to.match(/^https:/));",
+        "pm.test('rating is a number', () => pm.expect(b.rating).to.be.a('number'));"
+      ] } }]
+    },
+    {
+      "name": "missing book is 404",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/books/999" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('404', () => pm.response.to.have.status(404));"
+      ] } }]
+    },
+    {
+      "name": "create book is 201",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"title\":\"Newman Book\",\"author\":\"CI\",\"isbn\":\"978-1111111111\",\"year\":2021,\"tags\":[\"ci\"]}" },
+        "url": "{{baseUrl}}/api/books"
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('201 Created', () => pm.response.to.have.status(201));",
+        "pm.test('echoes the title', () => pm.expect(pm.response.json().title).to.eql('Newman Book'));"
+      ] } }]
+    },
+    {
+      "name": "graphql book detail",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"query\":\"{ book(id: 1) { id title author rating } }\"}" },
+        "url": "{{baseUrl}}/graphql"
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));",
+        "const d = pm.response.json().data.book;",
+        "pm.test('title matches', () => pm.expect(d.title).to.eql('The Left Hand of Darkness'));",
+        "pm.test('rating is a number', () => pm.expect(d.rating).to.be.a('number'));"
+      ] } }]
+    }
+  ]
+}

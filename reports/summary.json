@@ -1,0 +1,103 @@
+{
+  "additive_changes": 2,
+  "breaking_caught_by_any": 11,
+  "breaking_changes": 13,
+  "breaking_missed_by_all": 2,
+  "caught_per_mechanism_of_breaking": {
+    "contract": 7,
+    "provider_tests": 5,
+    "schema_diff": 10
+  },
+  "contract_catches_provider_tests_miss": [
+    "C01",
+    "C02",
+    "C04",
+    "C05",
+    "C12"
+  ],
+  "contract_catches_schema_diff_blind": [
+    "C12"
+  ],
+  "false_positives": [],
+  "headline": "Of 13 breaking changes, provider tests catch 5, consumer contracts catch 7, schema diff catches 10; 2 slip past all three. Contracts catch 5 that the provider's own tests miss. No mechanism flagged any of the 2 additive changes (0 false positives).",
+  "mechanisms": [
+    "provider_tests",
+    "contract",
+    "schema_diff"
+  ],
+  "missed_breaking": [
+    {
+      "desc": "REST: isbn format changes (hyphens stripped; still a string).",
+      "id": "C14",
+      "klass": "semantic"
+    },
+    {
+      "desc": "REST: create accepts implausible years (validation relaxed).",
+      "id": "C09",
+      "klass": "request-validation"
+    }
+  ],
+  "per_class": {
+    "add-field": {
+      "changes": 2,
+      "contract": 0,
+      "provider_tests": 0,
+      "schema_diff": 0
+    },
+    "nullability": {
+      "changes": 1,
+      "contract": 0,
+      "provider_tests": 0,
+      "schema_diff": 1
+    },
+    "remove-endpoint": {
+      "changes": 1,
+      "contract": 1,
+      "provider_tests": 1,
+      "schema_diff": 1
+    },
+    "remove-field": {
+      "changes": 1,
+      "contract": 0,
+      "provider_tests": 1,
+      "schema_diff": 1
+    },
+    "rename": {
+      "changes": 2,
+      "contract": 2,
+      "provider_tests": 0,
+      "schema_diff": 2
+    },
+    "request-validation": {
+      "changes": 1,
+      "contract": 0,
+      "provider_tests": 0,
+      "schema_diff": 0
+    },
+    "semantic": {
+      "changes": 2,
+      "contract": 1,
+      "provider_tests": 0,
+      "schema_diff": 0
+    },
+    "status-code": {
+      "changes": 1,
+      "contract": 0,
+      "provider_tests": 1,
+      "schema_diff": 1
+    },
+    "type-change": {
+      "changes": 4,
+      "contract": 3,
+      "provider_tests": 2,
+      "schema_diff": 4
+    }
+  },
+  "schema_diff_catches_contract_blind": [
+    "C16",
+    "C06",
+    "C08",
+    "C15"
+  ],
+  "total_changes": 15
+}

@@ -1,0 +1,8 @@
+{
+  "endpoint": "POST /api/books",
+  "examples": [],
+  "generator": "malformed values for every field (null, wrong type, hostile strings)",
+  "max_examples": 300,
+  "unhandled_5xx_found": false,
+  "verdict": "no unhandled 5xx: Pydantic validation rejects bad input with 4xx, never a crash"
+}

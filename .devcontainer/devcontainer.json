@@ -1,0 +1,9 @@
+{
+  "name": "Accord — REST + GraphQL contract testing",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" }
+  },
+  "postAttachCommand": "bash .devcontainer/run-project.sh",
+  "remoteUser": "vscode"
+}

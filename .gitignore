@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+.coverage
+htmlcov/
+
+# harness scratch
+reports/_baseline.json
+
+# node (newman is npx, but just in case)
+node_modules/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Keep: reports/*.json (real run output, except the transient _baseline),
+# docs/*.pdf, all source, tests, contracts, the catalog and harness.
